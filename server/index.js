@@ -38,6 +38,10 @@ app.post('/login', (req, res) => {
         })
 })
 
-app.listen(3001, () => {
-    console.log("server is running")
-})
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(3001, () => {
+        console.log("server is running")
+    })
+}
+
+module.exports = app;

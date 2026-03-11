@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Premium Blue & White Palette */
+  --bg-main: #f0f4f8;
+  /* Soft Blue-tinted White */
+  --bg-card: #ffffff;
+  --primary: #2563eb;
+  /* Royal Blue */
+  --primary-glow: rgba(37, 99, 235, 0.15);
+  --secondary: #60a5fa;
+  /* Light Blue */
+  --accent: #3b82f6;
+
+  --text-main: #1e293b;
+  /* Dark Slate Blue */
+  --text-muted: #64748b;
+  /* Slate Gray */
+
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(37, 99, 235, 0.1);
+  --glass-heavy: rgba(255, 255, 255, 0.95);
+
+  /* Mood Colors - Adjusted for Light Theme */
+  --happy: #059669;
+  --sad: #2563eb;
+  --angry: #dc2626;
+  --neutral: #475569;
+
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* Elegant Soft Blue Background Aura */
+body::before {
+  content: '';
+  position: fixed;
+  top: -15%;
+  left: -10%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+  z-index: -1;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -10%;
+  right: -5%;
+  width: 40%;
+  height: 40%;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+  z-index: -1;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+button,
+a {
+  font-family: inherit;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}

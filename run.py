@@ -11,9 +11,9 @@ def run_project():
 
     # Define the commands to run
     # 1. Backend Server
-    backend_cmd = "npm start --prefix backend"
+    backend_cmd = "npm start --prefix server"
     # 2. Frontend React App
-    frontend_cmd = "npm start"
+    frontend_cmd = "npm start --prefix client"
 
     print("🚀 Starting Backend and Frontend...")
 

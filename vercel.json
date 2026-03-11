@@ -1,0 +1,22 @@
+{
+    "version": 2,
+    "rewrites": [
+        {
+            "source": "/register",
+            "destination": "/server/index.js"
+        },
+        {
+            "source": "/login",
+            "destination": "/server/index.js"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/client/public/index.html"
+        }
+    ],
+    "functions": {
+        "server/index.js": {
+            "includeFiles": "server/models/**"
+        }
+    }
+}

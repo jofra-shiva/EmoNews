@@ -4,6 +4,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-LTS-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Vercel](https://img.shields.io/badge/Deployed%20with-Vercel-black?logo=vercel)](https://vercel.com/)
 
 **EmoNews** is a cutting-edge web application that uses real-time facial expression recognition to deliver news articles tailored to your current emotional state. Built with the MERN stack and powered by AI, it bridges the gap between technology and human emotion.
 
@@ -13,11 +14,11 @@
 
 ## ✨ Features
 
-- 🧠 **Real-Time AI Analysis**: Uses `face-api.js` to detect emotions (Happy, Sad, Angry, Neutral, etc.) directly in your browser.
+- 🧠 **Real-Time AI Analysis**: Uses `face-api.js` to detect emotions (Happy, Sad, Angry, Surprised, etc.) directly in your browser.
 - 📰 **Contextual News**: Fetches top headlines from NewsAPI filtered by your current mood.
 - 🌐 **Multi-Language Support**: Includes a dedicated mode for Tamil news.
 - 🔒 **User Authentication**: Secure Login/Register system using MongoDB.
-- 🚀 **One-Click Execution**: Simple Python master script to launch both frontend and backend simultaneously.
+- 🚀 **Integrated Workflow**: New clean folder structure optimized for GitHub and easy deployment.
 
 ---
 
@@ -30,16 +31,37 @@
 
 ---
 
+## 📁 Project Structure
+
+```text
+EmoNews/
+├── client/              # Frontend React application
+│   ├── public/          # Static assets and face-api models
+│   ├── src/             # React components and logic
+│   └── package.json     # Frontend dependencies
+├── server/              # Backend Express server
+│   ├── models/          # MongoDB schemas
+│   ├── index.js         # Server entry point
+│   └── package.json     # Backend dependencies
+├── docs/                # Project documentation and images
+├── package.json         # Root scripts for project management
+├── run.py               # Master startup script (Python)
+├── vercel.json          # Deployment configuration
+└── .gitignore           # Global git ignore rules
+```
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v14 or later recommended)
+- [Node.js](https://nodejs.org/) (v14 or later)
 - [MongoDB](https://www.mongodb.com/try/download/community) installed and running locally
-- [Python 3.x](https://www.python.org/) (for the startup script)
+- [Python 3.x](https://www.python.org/) (optional, for the startup script)
 - A **NewsAPI** Key (Get one for free at [newsapi.org](https://newsapi.org/))
 
-### Installation
+### Installation & Setup
 
 1. **Clone the repository**:
    ```bash
@@ -47,74 +69,50 @@
    cd EmoNews
    ```
 
-2. **Install Frontend Dependencies**:
+2. **Install all dependencies**:
+   We've made it easy! Run this from the root:
    ```bash
-   npm install
+   npm run install-all
    ```
 
-3. **Install Backend Dependencies**:
-   ```bash
-   cd backend
-   npm install
-   cd ..
-   ```
-
-4. **Configure API Keys**:
-   - Get your free key at [newsapi.org](https://newsapi.org/).
-   - Open `src/components/Camera/Camera.js` and replace `const API_KEY = '';` (Line 12).
-   - *Repeat for `src/components/Cameratamil/Cameratamil.js` (Line 12).*
-   - **Tip**: For better security, consider using a `.env` file for your Frontend as well!
+3. **Configure API Keys**:
+   - Open `client/src/components/Camera/Camera.js` and replace the `API_KEY` (Line 11).
+   - *Repeat for `client/src/components/Cameratamil/Cameratamil.js`.*
 
 ---
 
 ## 🏃 Running the Project
 
-The easiest way to start both the frontend and backend is using the provided Python script:
+The project is designed to run both frontend and backend simultaneously.
 
+### Option 1: Using Python (Recommended for Windows)
 ```bash
 python run.py
 ```
 
-This will:
-1. Start the **Express Backend** on port `3001`.
-2. Start the **React Development Server** on port `3000`.
-3. Open two separate terminal windows for monitoring logs.
-
-*Alternatively, you can run `npm start` in the root and `npm start` in the `backend` folder manually.*
+### Option 2: Using NPM (Recommended for Mac/Linux)
+```bash
+npm start
+```
 
 ---
 
 ## 📖 How it Works
 
-1. **Face Detection**: The webcam captures your video feed.
-2. **Model Processing**: `face-api.js` processes the frames to identify facial landmarks and calculate expression probabilities.
-3. **Sentiment Mapping**: The dominant emotion triggers a specific query (e.g., "Happy" -> "Positive/Joyful news").
-4. **News Delivery**: A popup modal displays relevant articles fetched via the NewsAPI.
-
----
-
-## 📁 Project Structure
-
-```text
-├── backend/            # Express server and MongoDB models
-├── docs/               # Documentation and images
-├── public/             # Static assets and face-api models
-├── src/                # React application source code
-│   ├── components/     # UI Components (Camera, Buttons, etc.)
-│   ├── helpers/        # Face API and icon utilities
-│   └── App.js          # Main router and entry point
-└── run.py              # Master startup script
-```
+1. **Face Detection**: The webcam captures your video feed in real-time.
+2. **Model Processing**: `face-api.js` identifies facial landmarks and calculates expression probabilities.
+3. **Sentiment Mapping**: The dominant emotion triggers a specific query (e.g., "Sad" -> "Uplifting/Happy news").
+4. **News Delivery**: Articles are fetched via NewsAPI and displayed instantly in your dashboard.
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to open issues or submit pull requests.
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Feel free to open issues or submit pull requests.
 
 ## 📝 License
 
 This project is licensed under the ISC License.
 
 ---
-*Created with ❤️ for a more empathetic news experience.*
+*Created for a more empathetic news experience.*

@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom"; 
+import { useHistory } from "react-router-dom";
 import axios from "axios";
-import "./Register.css"; 
+import "./Register.css";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const history = useHistory(); 
+  const history = useHistory();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3001/register", { name, email, password });
+      const API_URL = process.env.REACT_APP_API_URL || "";
+      await axios.post(`${API_URL}/register`, { name, email, password });
       history.push("/");
     } catch (error) {
       alert("Registration Failed");
