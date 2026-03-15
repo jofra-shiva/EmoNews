@@ -23,18 +23,19 @@ const Header = () => {
       <Link to="/dashboard" style={{ textDecoration: 'none' }}>
         <h1>EMONews AI <span className="author-tag">BY SHIVA</span></h1>
       </Link>
-      <div className="App__switcher">
-        <Link className={`App__switcher-Link ${location.pathname === '/dashboard' ? 'active' : ''}`} to='/dashboard'>English</Link>
-        <Link className={`App__switcher-Link ${location.pathname === '/tamil' ? 'active' : ''}`} to='/tamil'>Tamil</Link>
+      <div className="App__nav-group">
+        <div className="App__switcher">
+          <Link className={`App__switcher-Link ${location.pathname === '/dashboard' ? 'active' : ''}`} to='/dashboard'>English</Link>
+          <Link className={`App__switcher-Link ${location.pathname === '/tamil' ? 'active' : ''}`} to='/tamil'>Tamil</Link>
+        </div>
         <button 
-          className="App__switcher-Link" 
+          className="App__logout-btn" 
           onClick={() => {
             localStorage.removeItem("isAuthenticated");
             window.location.href = "/";
           }}
-          style={{ cursor: 'pointer', border: 'none', background: 'transparent' }}
         >
-          Logout
+          <span role="img" aria-label="logout">🚪</span> Logout
         </button>
       </div>
     </nav>
