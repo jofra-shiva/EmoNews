@@ -1,61 +1,65 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link, useLocation } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { loadModels } from './helpers/faceApi';
 import { createFaLibrary } from './helpers/icons';
-import Camera from './components/Camera/Camera';
-import Cameratamil from './components/Cameratamil/Cameratamil';
+
+// Layouts
+import DashboardLayout from './layouts/DashboardLayout';
+import ProtectedRoute from './components/ProtectedRoute';
+
+// Auth Pages
 import Login from './components/Login';
 import Register from './components/Register';
-import ProtectedRoute from './components/ProtectedRoute';
-import './App.css';
+
+// Dashboard Pages
+import OverviewPage from './pages/OverviewPage';
+import AllArticlesPage from './pages/AllArticlesPage';
+import AddArticlePage from './pages/AddArticlePage';
+import Camera from './components/Camera/Camera';
+import Cameratamil from './components/Cameratamil/Cameratamil';
+
+// Global Styles
+import './styles/theme.css';
+import './index.css';
 
 createFaLibrary();
 loadModels();
 
-const Header = () => {
-  const location = useLocation();
-  const isAuthPage = location.pathname === '/' || location.pathname === '/register';
-  
-  if (isAuthPage) return null;
-
-  return (
-    <nav className='App__header'>
-      <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-        <h1>EMONews AI <span className="author-tag">BY SHIVA</span></h1>
-      </Link>
-      <div className="App__nav-group">
-        <div className="App__switcher">
-          <Link className={`App__switcher-Link ${location.pathname === '/dashboard' ? 'active' : ''}`} to='/dashboard'>English</Link>
-          <Link className={`App__switcher-Link ${location.pathname === '/tamil' ? 'active' : ''}`} to='/tamil'>Tamil</Link>
-        </div>
-        <button 
-          className="App__logout-btn" 
-          onClick={() => {
-            localStorage.removeItem("isAuthenticated");
-            window.location.href = "/";
-          }}
-        >
-          <span role="img" aria-label="logout">🚪</span> Logout
-        </button>
-      </div>
-    </nav>
-  );
-};
+// Wrapper that applies DashboardLayout to a page component
+const DashboardRoute = ({ path, exact, component: Component, photoMode }) => (
+  <ProtectedRoute
+    path={path}
+    exact={exact}
+    component={() => (
+      <DashboardLayout>
+        {Component ? <Component photoMode={photoMode} /> : null}
+      </DashboardLayout>
+    )}
+  />
+);
 
 function App() {
-  const [mode] = useState(false);
-
   return (
     <Router>
-      <div className="App">
-        <Header />
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Route path="/register" component={Register} />
-          <ProtectedRoute path="/dashboard" component={() => <Camera photoMode={mode} />} />
-          <ProtectedRoute path='/tamil' component={() => <Cameratamil photoMode={mode} />} />
-        </Switch>
-      </div>
+      <Switch>
+        {/* Auth Routes */}
+        <Route exact path="/" component={Login} />
+        <Route path="/register" component={Register} />
+
+        {/* Dashboard Routes — all wrapped in DashboardLayout */}
+        <DashboardRoute exact path="/overview" component={OverviewPage} />
+        <DashboardRoute exact path="/articles" component={AllArticlesPage} />
+        <DashboardRoute exact path="/add-article" component={AddArticlePage} />
+        <DashboardRoute exact path="/scanner" component={Camera} photoMode={false} />
+        <DashboardRoute exact path="/scanner-tamil" component={Cameratamil} photoMode={false} />
+
+        {/* Legacy redirects — preserve old links */}
+        <ProtectedRoute path="/dashboard" component={() => <Redirect to="/scanner" />} />
+        <ProtectedRoute path="/tamil" component={() => <Redirect to="/scanner-tamil" />} />
+
+        {/* Default redirect after login */}
+        <ProtectedRoute path="*" component={() => <Redirect to="/overview" />} />
+      </Switch>
     </Router>
   );
 }

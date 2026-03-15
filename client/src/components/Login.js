@@ -17,7 +17,7 @@ const Login = () => {
       // The backend returns "Sucess" (single 'c')
       if (response.data === "Sucess" || response.data === "Success") {
         localStorage.setItem("isAuthenticated", "true");
-        history.push("/dashboard");
+        history.push("/overview");
       } else {
         alert(response.data);
       }

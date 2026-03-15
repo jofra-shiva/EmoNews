@@ -117,97 +117,98 @@ const Camera = ({ photoMode }) => {
 
   return (
     <div className="camera">
+      <div className="container">
+        <div className="section-header animate-fade-in">
+          <div className="tag">DASHBOARD</div>
+          <h2>Mood-Balanced Intel</h2>
+        </div>
 
-      <div className="main-layout container">
-        <aside className="camera-preview">
-          <div className="camera__wrapper glass-card small-cam">
-            {isCameraOn ? (
-              <>
-                <Webcam audio={false} ref={camera} width="100%" height="auto" mirrored={true} />
-                <canvas className={classnames('webcam-overlay', photoMode && 'webcam-overlay--hidden')} ref={cameraCanvas} />
-              </>
-            ) : (
-              <div className="camera__off">
-                <p>{detectedEmotion ? 'ANALYSIS COMPLETE' : 'SYSTEM READY'}</p>
-                {detectedEmotion && <div className="last-emotion-tag">{detectedEmotion.toUpperCase()}</div>}
-              </div>
-            )}
-            {isCameraOn && <div className="scanner-bezel"></div>}
-          </div>
-
-          <div className="camera__controls">
-            <Button onClick={() => setIsCameraOn(!isCameraOn)} className={classnames("toggle-btn btn-small", !isCameraOn && "button--primary")}>
-              {isCameraOn ? '🛑 Interrupt Protocol' : '⚡ Initiate AI Analysis'}
-            </Button>
-          </div>
-
-          <div className="manual-selector glass-card">
-            <div className="label">Manual Pulse</div>
-            <div className="emotion-buttons">
-              {MANUAL_EMOTIONS.map(emo => (
-                <button
-                  key={emo.id}
-                  className={classnames("emo-btn", detectedEmotion === emo.id && `active-${emo.id}`)}
-                  onClick={() => getNewsForEmotion(emo.id)}
-                  disabled={isLoading}
-                >
-                  <span role="img" aria-label={emo.id}>{emo.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="emotion-box glass-card">
-            <div className="label">Biometric Outcome</div>
-            <div className={`value emotion-${detectedEmotion}`}>
-              {isLoading ? 'SAMPLING...' : (detectedEmotion ? detectedEmotion.toUpperCase() : 'STANDBY')}
-            </div>
-          </div>
-        </aside>
-
-        <main className="news-feed">
-          <div className="section-header">
-            <div className="tag">DASHBOARD</div>
-            <h2>Mood-Balanced Intel</h2>
-          </div>
-
-          <div className="news-grid">
-            {isLoading ? (
-              [...Array(6)].map((_, i) => (
-                <div key={i} className="news-card skeleton-card">
-                  <div className="skeleton-img"></div>
-                  <div className="skeleton-text-container">
-                    <div className="skeleton-title"></div>
-                    <div className="skeleton-para"></div>
-                  </div>
+        <div className="main-layout">
+          <aside className="camera-preview">
+            <div className="camera__wrapper glass-card small-cam">
+              {isCameraOn ? (
+                <>
+                  <Webcam audio={false} ref={camera} width="100%" height="auto" mirrored={true} />
+                  <canvas className={classnames('webcam-overlay', photoMode && 'webcam-overlay--hidden')} ref={cameraCanvas} />
+                </>
+              ) : (
+                <div className="camera__off">
+                  <p>{detectedEmotion ? 'ANALYSIS COMPLETE' : 'SYSTEM READY'}</p>
+                  {detectedEmotion && <div className="last-emotion-tag">{detectedEmotion.toUpperCase()}</div>}
                 </div>
-              ))
-            ) : (
-              news.length > 0 ? (
-                news.map((article, index) => (
-                  <div key={index} className="news-card animate-fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
-                    {article.urlToImage && <img src={article.urlToImage} alt="News" loading="lazy" />}
-                    <div className="news-card-body">
-                      <a href={article.url} target="_blank" rel="noopener noreferrer" className="news-card-title">
-                        {article.title}
-                      </a>
-                      <p className="news-card-desc">{article.description}</p>
-                      <div className="news-card-footer">
-                        <a href={article.url} target="_blank" rel="noopener noreferrer" className="read-more">Complete Intel →</a>
-                      </div>
+              )}
+              {isCameraOn && <div className="scanner-bezel"></div>}
+            </div>
+
+            <div className="camera__controls">
+              <Button onClick={() => setIsCameraOn(!isCameraOn)} className={classnames("toggle-btn btn-small", !isCameraOn && "button--primary")}>
+                {isCameraOn ? '🛑 Interrupt Protocol' : '⚡ Initiate AI Analysis'}
+              </Button>
+            </div>
+
+            <div className="manual-selector glass-card">
+              <div className="label">Manual Pulse</div>
+              <div className="emotion-buttons">
+                {MANUAL_EMOTIONS.map(emo => (
+                  <button
+                    key={emo.id}
+                    className={classnames("emo-btn", detectedEmotion === emo.id && `active-${emo.id}`)}
+                    onClick={() => getNewsForEmotion(emo.id)}
+                    disabled={isLoading}
+                  >
+                    <span role="img" aria-label={emo.id}>{emo.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="emotion-box glass-card">
+              <div className="label">Biometric Outcome</div>
+              <div className={`value emotion-${detectedEmotion}`}>
+                {isLoading ? 'SAMPLING...' : (detectedEmotion ? detectedEmotion.toUpperCase() : 'STANDBY')}
+              </div>
+            </div>
+          </aside>
+
+          <main className="news-feed">
+            <div className="news-grid">
+              {isLoading ? (
+                [...Array(6)].map((_, i) => (
+                  <div key={i} className="news-card skeleton-card">
+                    <div className="skeleton-img"></div>
+                    <div className="skeleton-text-container">
+                      <div className="skeleton-title"></div>
+                      <div className="skeleton-para"></div>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="welcome-state glass-card">
-                  <div className="status-badge"><span role="img" aria-label="satellite">📡</span> AWAITING NEURAL SEED</div>
-                  <h3>Calibrating Your Perspective</h3>
-                  <p>Our neural networks are primed to curate high-fidelity intel based on your emotional frequency. Synchronize your biometric feed below to begin discovery.</p>
-                </div>
-              )
-            )}
-          </div>
-        </main>
+                news.length > 0 ? (
+                  news.map((article, index) => (
+                    <div key={index} className="news-card animate-fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
+                      {article.urlToImage && <img src={article.urlToImage} alt="News" loading="lazy" />}
+                      <div className="news-card-body">
+                        <a href={article.url} target="_blank" rel="noopener noreferrer" className="news-card-title">
+                          {article.title}
+                        </a>
+                        <p className="news-card-desc">{article.description}</p>
+                        <div className="news-card-footer">
+                          <a href={article.url} target="_blank" rel="noopener noreferrer" className="read-more">Complete Intel →</a>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="welcome-state glass-card">
+                    <div className="status-badge"><span role="img" aria-label="satellite">📡</span> AWAITING NEURAL SEED</div>
+                    <h3>Calibrating Your Perspective</h3>
+                    <p>Our neural networks are primed to curate high-fidelity intel based on your emotional frequency. Synchronize your biometric feed below to begin discovery.</p>
+                  </div>
+                )
+              )}
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   );

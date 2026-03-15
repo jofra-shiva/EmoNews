@@ -1,0 +1,100 @@
+/* ============================================
+   EmoNews SaaS Dashboard — Design Token System
+   ============================================ */
+
+:root {
+  --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  
+  /* ── Light Mode ── */
+  --bg-body: #f0f2f7;
+  --bg-sidebar: #0f172a;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-topbar: #ffffff;
+  --bg-input: #f1f5f9;
+
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+  --text-sidebar: #94a3b8;
+  --text-sidebar-active: #ffffff;
+
+  --border-color: #e2e8f0;
+  --border-sidebar: rgba(255,255,255,0.08);
+
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #4f46e5;
+  --accent-primary-soft: rgba(99, 102, 241, 0.1);
+  --accent-success: #10b981;
+  --accent-success-soft: rgba(16, 185, 129, 0.1);
+  --accent-warning: #f59e0b;
+  --accent-warning-soft: rgba(245, 158, 11, 0.1);
+  --accent-danger: #ef4444;
+  --accent-danger-soft: rgba(239, 68, 68, 0.1);
+  --accent-info: #3b82f6;
+  --accent-info-soft: rgba(59, 130, 246, 0.1);
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.1);
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 72px;
+  --topbar-height: 72px;
+
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Chart colors */
+  --chart-1: #6366f1;
+  --chart-2: #10b981;
+  --chart-3: #f59e0b;
+  --chart-4: #ef4444;
+  --chart-5: #3b82f6;
+  --chart-6: #8b5cf6;
+}
+
+/* ── Dark Mode ── */
+[data-theme="dark"] {
+  --bg-body: #0a0f1e;
+  --bg-sidebar: #06091a;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2234;
+  --bg-topbar: #111827;
+  --bg-input: #1a2234;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-sidebar: #64748b;
+  --text-sidebar-active: #ffffff;
+
+  --border-color: rgba(255,255,255,0.07);
+  --border-sidebar: rgba(255,255,255,0.06);
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.5);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-body);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
