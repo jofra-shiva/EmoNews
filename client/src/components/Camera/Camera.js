@@ -102,7 +102,7 @@ const Camera = ({ photoMode }) => {
     <div className="camera animate-fade-in">
       <nav className='App__header'>
         <Link to="/" style={{ textDecoration: 'none' }}>
-          <h1>EMONews AI</h1>
+          <h1>EMONews AI <span className="author-tag">BY SHIVA</span></h1>
         </Link>
         <div className="App__switcher">
           <Link className={classnames('App__switcher-Link', location.pathname !== '/tamil' && 'active')} to='/dashboard'>English</Link>

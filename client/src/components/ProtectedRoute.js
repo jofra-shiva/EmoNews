@@ -1,15 +1,17 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom"; 
+import React from 'react';
+import { Route, Redirect } from 'react-router-dom';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
   return (
     <Route
       {...rest}
       render={(props) =>
-        localStorage.getItem("isAuthenticated") === "true" ? (
+        isAuthenticated ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/login" />
+          <Redirect to="/" />
         )
       }
     />

@@ -106,3 +106,17 @@ a {
 .animate-fade-in {
   animation: fadeIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
+
+.author-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  background: var(--primary);
+  color: white;
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+  vertical-align: middle;
+  margin-left: 0.75rem;
+  letter-spacing: 0.1em;
+  box-shadow: 0 4px 10px var(--primary-glow);
+  text-transform: uppercase;
+}
