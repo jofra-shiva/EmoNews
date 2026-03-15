@@ -65,7 +65,7 @@ EmoNews/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/EmoNews.git
+   git clone https://github.com/jofra-shiva/EmoNews.git
    cd EmoNews
    ```
 
