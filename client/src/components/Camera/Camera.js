@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import classnames from 'classnames';
 import axios from 'axios';
-import { Link, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { detectFaces, drawResults } from '../../helpers/faceApi';
 import Button from '../Button/Button';
@@ -99,16 +99,7 @@ const Camera = ({ photoMode }) => {
   ];
 
   return (
-    <div className="camera animate-fade-in">
-      <nav className='App__header'>
-        <Link to="/" style={{ textDecoration: 'none' }}>
-          <h1>EMONews AI <span className="author-tag">BY SHIVA</span></h1>
-        </Link>
-        <div className="App__switcher">
-          <Link className={classnames('App__switcher-Link', location.pathname !== '/tamil' && 'active')} to='/dashboard'>English</Link>
-          <Link className={classnames('App__switcher-Link', location.pathname === '/tamil' && 'active')} to='/tamil'>Tamil</Link>
-        </div>
-      </nav>
+    <div className="camera">
 
       <div className="main-layout container">
         <aside className="camera-preview">
