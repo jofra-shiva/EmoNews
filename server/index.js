@@ -24,7 +24,7 @@ app.get('/api/test', (req, res) => {
 app.post('/api/register', (req, res) => {
     RegisterModel.create(req.body)
         .then(userdata => res.json(userdata))
-        .catch(err => res.status(400).json(err))
+        .catch(err => res.status(400).json({ message: err.message }))
 })
 
 app.post('/api/login', (req, res) => {

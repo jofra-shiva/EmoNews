@@ -16,7 +16,8 @@ const Register = () => {
       await axios.post(`${API_URL}/register`, { name, email, password });
       history.push("/");
     } catch (error) {
-      alert("Registration Failed");
+      const errorMsg = error.response?.data?.message || "Registration Failed";
+      alert(errorMsg);
     }
   };
 
