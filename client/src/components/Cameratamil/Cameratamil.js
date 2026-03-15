@@ -131,7 +131,7 @@ const Cameratamil = ({ photoMode }) => {
           </div>
           <div className="camera__controls">
             <Button onClick={() => setIsCameraOn(!isCameraOn)} className={classnames("toggle-btn btn-small", !isCameraOn && "button--primary")}>
-              {isCameraOn ? 'நிறுத்து' : 'ஆய்வைத் தொடங்கு'}
+              {isCameraOn ? '🛑 ஸ்கேனை நிறுத்து' : '⚡ AI ஆய்வைத் தொடங்கு'}
             </Button>
           </div>
 
@@ -145,7 +145,7 @@ const Cameratamil = ({ photoMode }) => {
                   onClick={() => getNewsForEmotion(emo.id)}
                   disabled={isLoading}
                 >
-                  {emo.label}
+                  <span role="img" aria-label={emo.id}>{emo.label}</span>
                 </button>
               ))}
             </div>
@@ -200,9 +200,9 @@ const Cameratamil = ({ photoMode }) => {
                 ))
               ) : (
                 <div className="welcome-state glass-card">
-                  <div className="status-badge">ஆய்வுக்காகக் காத்திருக்கிறது</div>
+                  <div className="status-badge"><span role="img" aria-label="satellite">📡</span> ஆய்வுக்காகக் காத்திருக்கிறது</div>
                   <h3>உங்கள் பார்வையைச் சிஸ்டத்தில் காட்டவும்</h3>
-                  <p>"ஆய்வைத் தொடங்கு" பொத்தானை அழுத்தவும். உங்கள் மனநிலை கண்டறியப்பட்டவுடன் செய்திகள் காட்டப்படும்.</p>
+                  <p>எங்கள் நியூரல் நெட்வொர்க்குகள் உங்கள் மனநிலையை ஆராய்ந்து அதற்கேற்ற செய்திகளை வழங்கத் தயாராக உள்ளன. தொடங்குவதற்கு கீழே உள்ள பொத்தானை அழுத்தவும்.</p>
                 </div>
               )
             )}

@@ -129,7 +129,7 @@ const Camera = ({ photoMode }) => {
 
           <div className="camera__controls">
             <Button onClick={() => setIsCameraOn(!isCameraOn)} className={classnames("toggle-btn btn-small", !isCameraOn && "button--primary")}>
-              {isCameraOn ? 'Interrupt Scan' : 'Initiate AI Scan'}
+              {isCameraOn ? '🛑 Interrupt Protocol' : '⚡ Initiate AI Analysis'}
             </Button>
           </div>
 
@@ -143,7 +143,7 @@ const Camera = ({ photoMode }) => {
                   onClick={() => getNewsForEmotion(emo.id)}
                   disabled={isLoading}
                 >
-                  {emo.label}
+                  <span role="img" aria-label={emo.id}>{emo.label}</span>
                 </button>
               ))}
             </div>
@@ -192,9 +192,9 @@ const Camera = ({ photoMode }) => {
                 ))
               ) : (
                 <div className="welcome-state glass-card">
-                  <div className="status-badge">AWAITING BIOMETRIC FEED</div>
+                  <div className="status-badge"><span role="img" aria-label="satellite">📡</span> AWAITING NEURAL SEED</div>
                   <h3>Calibrating Your Perspective</h3>
-                  <p>Our neural networks are primed to curate news based on your emotional frequency. Initiate a scan below to begin discovery.</p>
+                  <p>Our neural networks are primed to curate high-fidelity intel based on your emotional frequency. Synchronize your biometric feed below to begin discovery.</p>
                 </div>
               )
             )}
