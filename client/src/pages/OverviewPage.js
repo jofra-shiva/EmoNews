@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MdArticle, MdTrendingUp, MdPeople, MdVisibility, MdBookmark, MdAccessTime } from 'react-icons/md';
 import StatCard from '../components/StatCard';
 import { VisitorLineChart, PublishingBarChart, CategoryPieChart } from '../components/Charts';
@@ -96,7 +96,7 @@ const OverviewPage = () => {
           {/* Trending Articles */}
           <div className="trending-card">
             <div className="trending-card__header">
-              <h3>🔥 Trending Articles</h3>
+              <h3><span role="img" aria-label="fire">🔥</span> Trending Articles</h3>
               <span className="chart-card__tag chart-card__tag--primary">Live</span>
             </div>
             <div className="trending-list">

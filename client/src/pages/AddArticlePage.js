@@ -105,14 +105,14 @@ const AddArticlePage = () => {
                   className={`status-option ${form.status === 'draft' ? 'status-option--active' : ''}`}
                   onClick={() => setForm(p => ({ ...p, status: 'draft' }))}
                 >
-                  📝 Draft
+                  <span role="img" aria-label="pencil">📝</span> Draft
                 </button>
                 <button
                   type="button"
                   className={`status-option ${form.status === 'published' ? 'status-option--active-publish' : ''}`}
                   onClick={() => setForm(p => ({ ...p, status: 'published' }))}
                 >
-                  🚀 Publish
+                  <span role="img" aria-label="rocket">🚀</span> Publish
                 </button>
               </div>
             </div>
