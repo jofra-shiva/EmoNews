@@ -23,7 +23,7 @@ const Register = () => {
   return (
     <div className="register-container">
       <div className="register-box animate-fade-in">
-        <div className="register-logo">📝</div>
+        <div className="register-logo"><span role="img" aria-label="memo">📝</span></div>
         <Link to="/tamil" style={{ textDecoration: 'none' }}>
           <h1>EMONews AI (TAMIL) <span className="author-tag">BY SHIVA</span></h1>
         </Link>

@@ -44,7 +44,7 @@ export const drawResults = async (image, canvas, results) => {
 
     // Draw box with "Bio-Metric" style
     resizedResults.forEach(result => {
-      const { detection, expressions } = result;
+      const { detection } = result;
       const box = detection.box;
 
       // Draw neon box corners instead of full box for better aesthetics

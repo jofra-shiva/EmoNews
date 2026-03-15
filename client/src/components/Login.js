@@ -29,7 +29,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-box animate-fade-in">
-        <div className="login-logo">🎭</div>
+        <div className="login-logo"><span role="img" aria-label="mask">🎭</span></div>
         <h2 className="login-title">Welcome Back</h2>
         <p className="login-subtitle">Sign in to EmoNews AI</p>
         
@@ -61,8 +61,8 @@ const Login = () => {
           </button>
         </form>
         
-        <p className="login-link">
-          Already have an account? <a href="/">Sign In</a>
+        <p className="register-link">
+          New to EmoNews? <a href="/register">Create an account</a>
         </p>
 
         <div className="branding-footer">
