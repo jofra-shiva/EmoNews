@@ -16,13 +16,17 @@ mongoose.connect(mongoURI)
         console.log("💡 Tip: Make sure MongoDB is running! Try starting it in Services or Command Prompt.");
     });
 
-app.post('/register', (req, res) => {
+app.get('/api/test', (req, res) => {
+    res.json({ message: "Backend is working!" });
+});
+
+app.post('/api/register', (req, res) => {
     RegisterModel.create(req.body)
         .then(userdata => res.json(userdata))
-        .catch(err => res.json(err))
+        .catch(err => res.status(400).json(err))
 })
 
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
     RegisterModel.findOne({ email: email })
         .then(user => {
@@ -36,6 +40,7 @@ app.post('/login', (req, res) => {
                 res.json("Email is not register")
             }
         })
+        .catch(err => res.status(500).json(err))
 })
 
 if (process.env.NODE_ENV !== 'production') {

@@ -10,6 +10,14 @@
     "build": "npm install && npm install --prefix client && npm install --prefix server && npm run build --prefix client",
     "install-all": "npm install && npm install --prefix client && npm install --prefix server"
   },
+  "dependencies": {
+    "express": "^4.21.2",
+    "mongoose": "^8.12.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "bcryptjs": "^3.0.2",
+    "jsonwebtoken": "^9.0.2"
+  },
   "devDependencies": {
     "concurrently": "^8.2.2"
   }

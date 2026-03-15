@@ -8,9 +8,7 @@
         {
             "src": "client/package.json",
             "use": "@vercel/static-build",
-            "config": {
-                "distDir": "build"
-            }
+            "config": { "distDir": "build" }
         }
     ],
     "rewrites": [
@@ -19,16 +17,8 @@
             "destination": "/api/index.js"
         },
         {
-            "source": "/register",
-            "destination": "/api/index.js"
-        },
-        {
-            "source": "/login",
-            "destination": "/api/index.js"
-        },
-        {
             "source": "/(.*)",
-            "destination": "/client/$1"
+            "destination": "/index.html"
         }
     ]
 }
