@@ -66,7 +66,7 @@ const Login = () => {
         </p>
 
         <div className="branding-footer">
-          BY SHIVA
+          <span className="author-tag">BY SHIVA</span>
         </div>
       </div>
     </div>

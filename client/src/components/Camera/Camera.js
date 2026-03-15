@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import classnames from 'classnames';
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
 
 import { detectFaces, drawResults } from '../../helpers/faceApi';
 import Button from '../Button/Button';
@@ -13,7 +12,6 @@ const API_KEY = 'da7a14e2c2c243b2b921a0a11d732b05';
 const Camera = ({ photoMode }) => {
   const camera = useRef(null);
   const cameraCanvas = useRef(null);
-  const location = useLocation();
   const [news, setNews] = useState([]);
   const [detectedEmotion, setDetectedEmotion] = useState('');
   const [isCameraOn, setIsCameraOn] = useState(false);

@@ -25,8 +25,8 @@ const Register = () => {
     <div className="register-container">
       <div className="register-box animate-fade-in">
         <div className="register-logo"><span role="img" aria-label="memo">📝</span></div>
-        <Link to="/tamil" style={{ textDecoration: 'none' }}>
-          <h1>EMONews AI </h1>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          <h1 className="register-title">EMONews AI</h1>
         </Link>
         <p>Join EmoNews AI for personalized news</p>
         
@@ -72,7 +72,7 @@ const Register = () => {
         </p>
 
         <div className="branding-footer">
-          BY SHIVA
+          <span className="author-tag">BY SHIVA</span>
         </div>
       </div>
     </div>
