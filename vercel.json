@@ -8,7 +8,9 @@
         {
             "src": "client/package.json",
             "use": "@vercel/static-build",
-            "config": { "distDir": "build" }
+            "config": {
+                "distDir": "build"
+            }
         }
     ],
     "rewrites": [
@@ -17,8 +19,24 @@
             "destination": "/api/index.js"
         },
         {
+            "source": "/static/(.*)",
+            "destination": "/client/static/$1"
+        },
+        {
+            "source": "/models/(.*)",
+            "destination": "/client/models/$1"
+        },
+        {
+            "source": "/images/(.*)",
+            "destination": "/client/images/$1"
+        },
+        {
+            "source": "/(favicon.ico|manifest.json|robots.txt)",
+            "destination": "/client/$1"
+        },
+        {
             "source": "/(.*)",
-            "destination": "/index.html"
+            "destination": "/client/index.html"
         }
     ]
 }
