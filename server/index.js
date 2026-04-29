@@ -2,12 +2,22 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const RegisterModel = require('./models/register')
+const RegisterModel = require('./models/register');
 
 const app = express();
-app.use(express.json())
-app.use(cors())
+const PORT = process.env.PORT || 3001;
 
+// Middleware
+app.use(express.json());
+app.use(cors());
+
+// Logging Middleware
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+    next();
+});
+
+// Database Connection
 const mongoURI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/News-reader";
 
 mongoose.connect(mongoURI)
@@ -17,37 +27,48 @@ mongoose.connect(mongoURI)
         console.log("💡 Tip: Make sure MongoDB is running! Try starting it in Services or Command Prompt.");
     });
 
+// API Routes
 app.get('/api/test', (req, res) => {
-    res.json({ message: "Backend is working!" });
+    res.status(200).json({ 
+        status: "success", 
+        message: "Backend is fully operational",
+        timestamp: new Date().toISOString()
+    });
 });
 
-app.post('/api/register', (req, res) => {
-    RegisterModel.create(req.body)
-        .then(userdata => res.json(userdata))
-        .catch(err => res.status(400).json({ message: err.message }))
-})
+app.post('/api/register', async (req, res) => {
+    try {
+        const userdata = await RegisterModel.create(req.body);
+        res.status(201).json({ status: "success", data: userdata });
+    } catch (err) {
+        res.status(400).json({ status: "error", message: err.message });
+    }
+});
 
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
-    RegisterModel.findOne({ email: email })
-        .then(user => {
-            if (user) {
-                if (user.password === password) {
-                    res.json("Sucess")
-                } else {
-                    res.json("The password is incorrect")
-                }
+    try {
+        const user = await RegisterModel.findOne({ email });
+        if (user) {
+            if (user.password === password) {
+                res.status(200).json({ status: "success", message: "Login successful" });
             } else {
-                res.json("Email is not register")
+                res.status(401).json({ status: "error", message: "Incorrect password" });
             }
-        })
-        .catch(err => res.status(500).json(err))
-})
+        } else {
+            res.status(404).json({ status: "error", message: "Email not registered" });
+        }
+    } catch (err) {
+        res.status(500).json({ status: "error", message: "Internal server error" });
+    }
+});
 
+// Start Server
 if (process.env.NODE_ENV !== 'production') {
-    app.listen(3001, () => {
-        console.log("server is running")
-    })
+    app.listen(PORT, () => {
+        console.log(`🚀 EmoNews Server running on http://localhost:${PORT}`);
+        console.log(`📡 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
 }
 
-module.exports = app;
+module.exports = app;

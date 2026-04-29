@@ -14,15 +14,16 @@ const Login = () => {
       const API_URL = process.env.REACT_APP_API_URL || "/api";
       const response = await axios.post(`${API_URL}/login`, { email, password });
 
-      // The backend returns "Sucess" (single 'c')
-      if (response.data === "Sucess" || response.data === "Success") {
+      // Handle professional response format
+      if (response.data.status === "success") {
         localStorage.setItem("isAuthenticated", "true");
         history.push("/overview");
       } else {
-        alert(response.data);
+        alert(response.data.message || "Invalid Credentials");
       }
     } catch (error) {
-      alert("Login Failed");
+      const errorMsg = error.response?.data?.message || "Login Failed";
+      alert(errorMsg);
     }
   };
 
