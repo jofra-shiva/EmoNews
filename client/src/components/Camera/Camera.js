@@ -7,8 +7,6 @@ import Button from '../Button/Button';
 import Webcam from 'react-webcam';
 import './Camera.css';
 
-const API_KEY = 'da7a14e2c2c243b2b921a0a11d732b05';
-
 const Camera = ({ photoMode }) => {
   const camera = useRef(null);
   const cameraCanvas = useRef(null);
