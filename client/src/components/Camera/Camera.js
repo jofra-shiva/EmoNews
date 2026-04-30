@@ -39,8 +39,9 @@ const Camera = ({ photoMode }) => {
     }
 
     try {
-      const response = await axios.get(`https://newsapi.org/v2/everything`, {
-        params: { q: query, language: 'en', pageSize: 30, sortBy: 'publishedAt', apiKey: API_KEY }
+      const API_URL = process.env.REACT_APP_API_URL || '/api';
+      const response = await axios.get(`${API_URL}/news`, {
+        params: { q: query, language: 'en', pageSize: 30 }
       });
       
       let articles = response.data.articles || [];

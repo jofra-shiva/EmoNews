@@ -37,8 +37,9 @@ const Cameratamil = ({ photoMode }) => {
     }
 
     try {
-      let response = await axios.get(`https://newsapi.org/v2/everything`, {
-        params: { q: query, language: 'ta', pageSize: 100, sortBy: 'publishedAt', apiKey: API_KEY }
+      const API_URL = process.env.REACT_APP_API_URL || '/api';
+      let response = await axios.get(`${API_URL}/news`, {
+        params: { q: query, language: 'ta', pageSize: 100 }
       });
  
       let articles = response.data.articles || [];
@@ -47,8 +48,8 @@ const Cameratamil = ({ photoMode }) => {
       if (articles.length === 0) {
         console.log("No articles found with primary query, trying fallback...");
         const fallbackQuery = 'தமிழ்நாடு OR செய்திகள்';
-        const fallbackResponse = await axios.get(`https://newsapi.org/v2/everything`, {
-          params: { q: fallbackQuery, language: 'ta', pageSize: 50, sortBy: 'publishedAt', apiKey: API_KEY }
+        const fallbackResponse = await axios.get(`${API_URL}/news`, {
+          params: { q: fallbackQuery, language: 'ta', pageSize: 50 }
         });
         articles = fallbackResponse.data.articles || [];
       }

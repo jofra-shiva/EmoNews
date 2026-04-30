@@ -63,6 +63,35 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+// News Proxy Route (Fixes 426 Error on Vercel/Production)
+app.get('/api/news', async (req, res) => {
+    const { q, language, pageSize } = req.query;
+    const API_KEY = process.env.NEWS_API_KEY || 'da7a14e2c2c243b2b921a0a11d732b05';
+    
+    try {
+        const axios = require('axios');
+        const response = await axios.get('https://newsapi.org/v2/everything', {
+            params: {
+                q,
+                language: language || 'en',
+                pageSize: pageSize || 30,
+                sortBy: 'publishedAt',
+                apiKey: API_KEY
+            },
+            headers: {
+                'User-Agent': 'EmoNews-App'
+            }
+        });
+        res.status(200).json(response.data);
+    } catch (err) {
+        console.error("News Proxy Error:", err.response?.data || err.message);
+        res.status(err.response?.status || 500).json({
+            status: "error",
+            message: err.response?.data?.message || "Failed to fetch news"
+        });
+    }
+});
+
 // Start Server
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
