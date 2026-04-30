@@ -181,10 +181,17 @@ body {
   transform: scale(1.1);
 }
 
-/* Gradient Text */
-.text-gradient {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-primary-hover) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .table-card { padding: 1.25rem; }
+}
+
+@media (max-width: 768px) {
+  .articles-table th, .articles-table td { padding: 0.75rem 0.5rem; }
+  .table-title { max-width: 180px; font-size: 0.8125rem; }
+}
+
+@media (max-width: 480px) {
+  .table-card { padding: 1rem 0.5rem; border-radius: var(--radius-md); }
+  .table-card__header { padding: 0 0.5rem; }
 }

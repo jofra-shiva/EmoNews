@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
 import useDarkMode from '../hooks/useDarkMode';
@@ -8,6 +9,12 @@ const DashboardLayout = ({ children }) => {
   const { isDark, toggleDark } = useDarkMode();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+
+  // Close mobile sidebar on route change
+  React.useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   const handleToggleSidebar = () => {
     if (window.innerWidth <= 768) {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import axios from "axios";
+import { MdPsychology } from "react-icons/md";
 import "./Register.css";
 
 const Register = () => {
@@ -24,18 +25,18 @@ const Register = () => {
   return (
     <div className="register-container">
       <div className="register-box animate-fade-in">
-        <div className="register-logo"><span role="img" aria-label="memo">📝</span></div>
+        <div className="register-logo"><MdPsychology /></div>
         <Link to="/" style={{ textDecoration: 'none' }}>
-          <h1 className="register-title">EMONews AI</h1>
+          <h1 className="register-title">EMONews</h1>
         </Link>
-        <p>Join EmoNews AI for personalized news</p>
+        <p>Join EmoNews for personalized news</p>
         
         <form onSubmit={handleRegister} className="register-form">
           <div className="input-group">
             <label>Full Name</label>
             <input 
               type="text" 
-              placeholder="Your Name" 
+              placeholder="Jofra" 
               value={name} 
               onChange={(e) => setName(e.target.value)} 
               required 
@@ -46,7 +47,7 @@ const Register = () => {
             <label>Email Address</label>
             <input 
               type="email" 
-              placeholder="name@example.com" 
+              placeholder="jofra@gmail.com" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
@@ -72,7 +73,7 @@ const Register = () => {
         </p>
 
         <div className="branding-footer">
-          <span className="author-tag">BY SHIVA</span>
+          <span className="author-tag">BY JOFRA</span>
         </div>
       </div>
     </div>

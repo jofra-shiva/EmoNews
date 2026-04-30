@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { MdPsychology } from "react-icons/md";
 import "./Login.css";
 
 const Login = () => {
@@ -30,16 +31,16 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-box animate-fade-in">
-        <div className="login-logo"><span role="img" aria-label="mask">🎭</span></div>
+        <div className="login-logo"><MdPsychology /></div>
         <h2 className="login-title">Welcome Back</h2>
-        <p className="login-subtitle">Sign in to EmoNews AI</p>
+        <p className="login-subtitle">Sign in to EmoNews</p>
         
         <form onSubmit={handleLogin} className="login-form">
           <div className="input-group">
             <label>Email Address</label>
             <input
               type="email"
-              placeholder="name@example.com"
+              placeholder="jofra@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -67,7 +68,7 @@ const Login = () => {
         </p>
 
         <div className="branding-footer">
-          <span className="author-tag">BY SHIVA</span>
+          <span className="author-tag">BY JOFRA</span>
         </div>
       </div>
     </div>

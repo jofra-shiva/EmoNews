@@ -217,7 +217,16 @@
 .btn-full { width: 100%; justify-content: center; padding: 1rem; }
 
 @media (max-width: 1024px) {
+  .add-article-page { gap: 1.5rem; }
   .article-form__layout { grid-template-columns: 1fr; }
   .article-form__sidebar { order: -1; }
+  .form-card { padding: 1.5rem; }
+}
+
+@media (max-width: 768px) {
+  .add-article-page__header h2 { font-size: 1.5rem; }
+  .form-input--lg { font-size: 1.1rem; }
+  .ai-summarizer__header { padding: 1rem; flex-direction: column; gap: 1rem; align-items: stretch; }
+  .btn-ai { width: 100%; }
 }
 

@@ -12,6 +12,7 @@ const API_KEY = 'da7a14e2c2c243b2b921a0a11d732b05';
 const Cameratamil = ({ photoMode }) => {
   const camera = useRef(null);
   const cameraCanvas = useRef(null);
+  const newsFeedRef = useRef(null);
   const [news, setNews] = useState([]);
   const [detectedEmotion, setDetectedEmotion] = useState('');
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -26,29 +27,53 @@ const Cameratamil = ({ photoMode }) => {
     setIsLoading(true);
     setDetectedEmotion(emotion);
 
-    let query = 'general';
+    let query = 'தமிழ்நாடு OR இந்தியா OR உலகம் OR செய்திகள் OR இன்றைய செய்திகள்'; // Expanded Tamil keywords
     if (emotion === 'sad') {
-      query = 'happiness OR uplifting OR joy OR positive OR success';
+      query = 'சிரிப்பு OR நகைச்சுவை OR மகிழ்ச்சி OR வெற்றி OR சாதனை OR நல்ல செய்திகள்';
     } else if (emotion === 'angry') {
-      query = 'comedy OR funny OR jokes OR stand-up OR relax';
+      query = 'அமைதி OR தியானம் OR இயற்கை OR ஆன்மீகம் OR ரிலாக்ஸ் OR சுற்றுலா OR தத்துவங்கள்';
     } else if (emotion === 'happy' || emotion === 'neutral') {
-      query = 'current affairs OR science OR world events OR society';
+      query = 'செய்திகள் OR அரசியல் OR அறிவியல் OR விளையாட்டு OR சினிமா OR தொழில்நுட்பம் OR கல்வி';
     }
 
     try {
-      const response = await axios.get(`https://newsapi.org/v2/everything`, {
-        params: { q: query, language: 'ta', pageSize: 12, sortBy: 'relevancy', apiKey: API_KEY }
+      let response = await axios.get(`https://newsapi.org/v2/everything`, {
+        params: { q: query, language: 'ta', pageSize: 100, sortBy: 'publishedAt', apiKey: API_KEY }
       });
-
-      setNews(response.data.articles || []);
+ 
+      let articles = response.data.articles || [];
+      
+      // Fallback: If no articles found with complex query, try a very simple one
+      if (articles.length === 0) {
+        console.log("No articles found with primary query, trying fallback...");
+        const fallbackQuery = 'தமிழ்நாடு OR செய்திகள்';
+        const fallbackResponse = await axios.get(`https://newsapi.org/v2/everything`, {
+          params: { q: fallbackQuery, language: 'ta', pageSize: 50, sortBy: 'publishedAt', apiKey: API_KEY }
+        });
+        articles = fallbackResponse.data.articles || [];
+      }
+      
+      // Shuffle Tamil news
+      articles = articles.sort(() => Math.random() - 0.5);
+      
+      setNews(articles.slice(0, 50));
+      
+      // Smoothly move scanner out of view and focus on news
+      setTimeout(() => {
+        if (newsFeedRef.current) {
+          const yOffset = -100; 
+          const y = newsFeedRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 100);
     } catch (error) {
-      console.error(error);
+      console.error("News Fetch Error:", error);
       
       // Fallback for 426 Upgrade Required (Non-localhost restriction)
       if (error.response?.status === 426 || !error.response) {
         setNews([
           {
-            title: `[AI சிமுலேஷன்] ${emotion} நிலைகளுக்கான சிறந்த செய்திகள்`,
+            title: `[சிமுலேஷன்] ${emotion} நிலைகளுக்கான சிறந்த செய்திகள்`,
             description: `தயாரிப்பு சூழலில் வெளி செய்தி ஊட்டம் கட்டுப்படுத்தப்பட்டுள்ளது. உங்கள் ${emotion} மனநிலைக்கான சிமுலேட்டட் செய்திகள் இங்கே காட்டப்படுகின்றன.`,
             url: "#",
             urlToImage: "https://images.unsplash.com/photo-1620712943543-bcc4628c6bb8?auto=format&fit=crop&q=80&w=800"
@@ -116,70 +141,61 @@ const Cameratamil = ({ photoMode }) => {
     <div className="camera">
       <div className="container">
         <div className="section-header animate-fade-in">
-          <div className="tag">DASHBOARD</div>
           <h2>உங்கள் மனநிலைக்கேற்ற செய்திகள்</h2>
         </div>
 
         <div className="main-layout">
           <aside className="camera-preview">
-            <div className="camera__wrapper glass-card small-cam">
-              {isCameraOn ? (
-                <>
-                  <Webcam audio={false} ref={camera} width="100%" height="auto" mirrored={true} />
-                  <canvas className={classnames('webcam-overlay', photoMode && 'webcam-overlay--hidden')} ref={cameraCanvas} />
-                </>
-              ) : (
-                <div className="camera__off">
-                  <p>{detectedEmotion ? 'ஆய்வு முடிந்தது' : 'சிஸ்டம் தயார்'}</p>
-                  {detectedEmotion && <div className="last-emotion-tag">
-                    {detectedEmotion === 'happy' ? 'மகிழ்ச்சி' :
-                      detectedEmotion === 'sad' ? 'சோகம்' :
-                        detectedEmotion === 'angry' ? 'கோபம்' :
-                          detectedEmotion === 'neutral' ? 'அமைதி' :
-                            detectedEmotion.toUpperCase()}
-                  </div>}
-                </div>
-              )}
-              {isCameraOn && <div className="scanner-bezel"></div>}
-            </div>
-            <div className="camera__controls">
-              <Button onClick={() => setIsCameraOn(!isCameraOn)} className={classnames("toggle-btn btn-small", !isCameraOn && "button--primary")}>
-                {isCameraOn ? '🛑 ஸ்கேனை நிறுத்து' : '⚡ AI ஆய்வைத் தொடங்கு'}
-              </Button>
-            </div>
-
-            <div className="manual-selector glass-card">
-              <div className="label">செய்திகளைத் தேர்ந்தெடுக்கவும்</div>
-              <div className="emotion-buttons">
-                {MANUAL_EMOTIONS.map(emo => (
-                  <button
-                    key={emo.id}
-                    className={classnames("emo-btn", detectedEmotion === emo.id && `active-${emo.id}`)}
-                    onClick={() => getNewsForEmotion(emo.id)}
-                    disabled={isLoading}
-                  >
-                    <span role="img" aria-label={emo.id}>{emo.label}</span>
-                  </button>
-                ))}
+            <div className="camera-block glass-card">
+              <div className="block-label">உணர்ச்சி ஆய்வு</div>
+              <div className="camera__wrapper small-cam">
+                {isCameraOn ? (
+                  <>
+                    <Webcam audio={false} ref={camera} width="100%" height="auto" mirrored={true} />
+                    <canvas className={classnames('webcam-overlay', photoMode && 'webcam-overlay--hidden')} ref={cameraCanvas} />
+                  </>
+                ) : (
+                  <div className="camera__off">
+                    <p>{detectedEmotion ? 'ஆய்வு முடிந்தது' : 'சிஸ்டம் தயார்'}</p>
+                    {detectedEmotion && <div className="last-emotion-tag">
+                      {detectedEmotion === 'happy' ? 'மகிழ்ச்சி' :
+                        detectedEmotion === 'sad' ? 'சோகம்' :
+                          detectedEmotion === 'angry' ? 'கோபம்' :
+                            detectedEmotion === 'neutral' ? 'அமைதி' :
+                              detectedEmotion.toUpperCase()}
+                    </div>}
+                  </div>
+                )}
+                {isCameraOn && <div className="scanner-bezel"></div>}
+              </div>
+              <div className="camera__controls">
+                <Button onClick={() => setIsCameraOn(!isCameraOn)} className={classnames("toggle-btn btn-small", !isCameraOn && "button--primary")}>
+                  {isCameraOn ? '🛑 ஆய்வை நிறுத்து' : '⚡ ஸ்கேன் தொடங்கு'}
+                </Button>
               </div>
             </div>
 
-            <div className="emotion-box glass-card">
-              <div className="label">தற்போதைய நிலை</div>
-              <div className={`value emotion-${detectedEmotion}`}>
-                {isLoading ? 'ஆராய்கிறது...' : (
-                  detectedEmotion === 'happy' ? 'மகிழ்ச்சி' :
-                    detectedEmotion === 'sad' ? 'சோகம்' :
-                      detectedEmotion === 'angry' ? 'கோபம்' :
-                        detectedEmotion === 'neutral' ? 'அமைதி' :
-                          detectedEmotion === 'surprised' ? 'ஆச்சரியம்' :
-                            'தயார் நிலையில்'
-                )}
+            <div className="manual-selector glass-card">
+              <div className="block-label">நேரடித் தேர்வு</div>
+              <div className="selector-content">
+                <div className="emotion-buttons">
+                  {MANUAL_EMOTIONS.map(emo => (
+                    <button
+                      key={emo.id}
+                      className={classnames("emo-btn-large", detectedEmotion === emo.id && `active-${emo.id}`)}
+                      onClick={() => getNewsForEmotion(emo.id)}
+                      disabled={isLoading}
+                    >
+                      <span className="emo-icon">{emo.label.split(' ')[0]}</span>
+                      <span className="emo-text">{emo.label.split(' ')[1]}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </aside>
 
-          <main className="news-feed">
+          <main className="news-feed" ref={newsFeedRef}>
             <div className="news-grid">
               {isLoading ? (
                 [...Array(6)].map((_, i) => (
@@ -208,11 +224,14 @@ const Cameratamil = ({ photoMode }) => {
                     </div>
                   ))
                 ) : (
-                  <div className="welcome-state glass-card">
-                    <div className="status-badge"><span role="img" aria-label="satellite">📡</span> ஆய்வுக்காகக் காத்திருக்கிறது</div>
-                    <h3>உங்கள் பார்வையைச் சிஸ்டத்தில் காட்டவும்</h3>
-                    <p>எங்கள் நியூரல் நெட்வொர்க்குகள் உங்கள் மனநிலையை ஆராய்ந்து அதற்கேற்ற செய்திகளை வழங்கத் தயாராக உள்ளன. தொடங்குவதற்கு கீழே உள்ள பொத்தானை அழுத்தவும்.</p>
-                  </div>
+                  detectedEmotion && (
+                    <div className="no-news-message glass-card animate-fade-in">
+                      <div className="no-news-icon">📡</div>
+                      <h3>மன்னிக்கவும்!</h3>
+                      <p>தற்போது உங்கள் மனநிலைக்கான நேரடிச் செய்திகள் கிடைக்கவில்லை. புதிய செய்திகள் அப்டேட் ஆனவுடன் உடனே காண்பிக்கிறோம்.</p>
+                      <span className="no-news-status">(Sorry, we will show news once it's updated)</span>
+                    </div>
+                  )
                 )
               )}
             </div>

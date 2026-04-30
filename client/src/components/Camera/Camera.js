@@ -12,6 +12,7 @@ const API_KEY = 'da7a14e2c2c243b2b921a0a11d732b05';
 const Camera = ({ photoMode }) => {
   const camera = useRef(null);
   const cameraCanvas = useRef(null);
+  const newsFeedRef = useRef(null);
   const [news, setNews] = useState([]);
   const [detectedEmotion, setDetectedEmotion] = useState('');
   const [isCameraOn, setIsCameraOn] = useState(false);
@@ -39,9 +40,24 @@ const Camera = ({ photoMode }) => {
 
     try {
       const response = await axios.get(`https://newsapi.org/v2/everything`, {
-        params: { q: query, language: 'en', pageSize: 12, sortBy: 'relevancy', apiKey: API_KEY }
+        params: { q: query, language: 'en', pageSize: 30, sortBy: 'publishedAt', apiKey: API_KEY }
       });
-      setNews(response.data.articles || []);
+      
+      let articles = response.data.articles || [];
+      
+      // Shuffle news to keep it fresh
+      articles = articles.sort(() => Math.random() - 0.5);
+      
+      setNews(articles.slice(0, 12));
+      
+      // Smoothly move scanner out of view and focus on news
+      setTimeout(() => {
+        if (newsFeedRef.current) {
+          const yOffset = -100; 
+          const y = newsFeedRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 100);
     } catch (error) {
       console.error("News API Error:", error);
       
@@ -119,58 +135,56 @@ const Camera = ({ photoMode }) => {
     <div className="camera">
       <div className="container">
         <div className="section-header animate-fade-in">
-          <div className="tag">DASHBOARD</div>
           <h2>Mood-Balanced Intel</h2>
         </div>
 
         <div className="main-layout">
           <aside className="camera-preview">
-            <div className="camera__wrapper glass-card small-cam">
-              {isCameraOn ? (
-                <>
-                  <Webcam audio={false} ref={camera} width="100%" height="auto" mirrored={true} />
-                  <canvas className={classnames('webcam-overlay', photoMode && 'webcam-overlay--hidden')} ref={cameraCanvas} />
-                </>
-              ) : (
-                <div className="camera__off">
-                  <p>{detectedEmotion ? 'ANALYSIS COMPLETE' : 'SYSTEM READY'}</p>
-                  {detectedEmotion && <div className="last-emotion-tag">{detectedEmotion.toUpperCase()}</div>}
-                </div>
-              )}
-              {isCameraOn && <div className="scanner-bezel"></div>}
-            </div>
+            <div className="camera-block glass-card">
+              <div className="block-label">EMOTION SCAN</div>
+              <div className="camera__wrapper small-cam">
+                {isCameraOn ? (
+                  <>
+                    <Webcam audio={false} ref={camera} width="100%" height="auto" mirrored={true} />
+                    <canvas className={classnames('webcam-overlay', photoMode && 'webcam-overlay--hidden')} ref={cameraCanvas} />
+                  </>
+                ) : (
+                  <div className="camera__off">
+                    <p>{detectedEmotion ? 'ANALYSIS COMPLETE' : 'SYSTEM READY'}</p>
+                    {detectedEmotion && <div className="last-emotion-tag">{detectedEmotion.toUpperCase()}</div>}
+                  </div>
+                )}
+                {isCameraOn && <div className="scanner-bezel"></div>}
+              </div>
 
-            <div className="camera__controls">
-              <Button onClick={() => setIsCameraOn(!isCameraOn)} className={classnames("toggle-btn btn-small", !isCameraOn && "button--primary")}>
-                {isCameraOn ? '🛑 Interrupt Protocol' : '⚡ Initiate AI Analysis'}
-              </Button>
-            </div>
-
-            <div className="manual-selector glass-card">
-              <div className="label">Manual Pulse</div>
-              <div className="emotion-buttons">
-                {MANUAL_EMOTIONS.map(emo => (
-                  <button
-                    key={emo.id}
-                    className={classnames("emo-btn", detectedEmotion === emo.id && `active-${emo.id}`)}
-                    onClick={() => getNewsForEmotion(emo.id)}
-                    disabled={isLoading}
-                  >
-                    <span role="img" aria-label={emo.id}>{emo.label}</span>
-                  </button>
-                ))}
+              <div className="camera__controls">
+                <Button onClick={() => setIsCameraOn(!isCameraOn)} className={classnames("toggle-btn btn-small", !isCameraOn && "button--primary")}>
+                  {isCameraOn ? '🛑 STOP SCAN' : <span>⚡ START SCAN</span>}
+                </Button>
               </div>
             </div>
 
-            <div className="emotion-box glass-card">
-              <div className="label">Biometric Outcome</div>
-              <div className={`value emotion-${detectedEmotion}`}>
-                {isLoading ? 'SAMPLING...' : (detectedEmotion ? detectedEmotion.toUpperCase() : 'STANDBY')}
+            <div className="manual-selector glass-card">
+              <div className="block-label">MANUAL SELECTION</div>
+              <div className="selector-content">
+                <div className="emotion-buttons">
+                  {MANUAL_EMOTIONS.map(emo => (
+                    <button
+                      key={emo.id}
+                      className={classnames("emo-btn-large", detectedEmotion === emo.id && `active-${emo.id}`)}
+                      onClick={() => getNewsForEmotion(emo.id)}
+                      disabled={isLoading}
+                    >
+                      <span className="emo-icon">{emo.label.split(' ')[0]}</span>
+                      <span className="emo-text">{emo.label.split(' ')[1]}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </aside>
 
-          <main className="news-feed">
+          <main className="news-feed" ref={newsFeedRef}>
             <div className="news-grid">
               {isLoading ? (
                 [...Array(6)].map((_, i) => (
@@ -199,11 +213,7 @@ const Camera = ({ photoMode }) => {
                     </div>
                   ))
                 ) : (
-                  <div className="welcome-state glass-card">
-                    <div className="status-badge"><span role="img" aria-label="satellite">📡</span> AWAITING NEURAL SEED</div>
-                    <h3>Calibrating Your Perspective</h3>
-                    <p>Our neural networks are primed to curate high-fidelity intel based on your emotional frequency. Synchronize your biometric feed below to begin discovery.</p>
-                  </div>
+                  null
                 )
               )}
             </div>

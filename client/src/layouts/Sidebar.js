@@ -1,31 +1,25 @@
 import React from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import {
   MdDashboard,
-  MdArticle,
-  MdAddCircle,
   MdPsychology,
   MdTranslate,
-  MdBarChart,
-  MdSettings,
   MdLogout,
   MdChevronLeft,
   MdChevronRight,
 } from 'react-icons/md';
 import './Sidebar.css';
 
-const NAV_ITEMS = [
-  { to: '/overview', icon: <MdDashboard />, label: 'Overview' },
-  { to: '/articles', icon: <MdArticle />, label: 'All Articles' },
-  { to: '/add-article', icon: <MdAddCircle />, label: 'Add Article' },
-  { to: '/scanner', icon: <MdPsychology />, label: 'AI Scanner (EN)' },
-  { to: '/scanner-tamil', icon: <MdTranslate />, label: 'AI Scanner (TA)' },
-  { to: '/analytics', icon: <MdBarChart />, label: 'Analytics' },
-  { to: '/settings', icon: <MdSettings />, label: 'Settings' },
-];
-
-const Sidebar = ({ collapsed, onToggle }) => {
+const Sidebar = ({ collapsed, onToggle, className }) => {
   const history = useHistory();
+  const location = useLocation();
+  const isTamil = location.pathname === '/scanner-tamil';
+
+  const NAV_ITEMS = [
+    { to: '/overview', icon: <MdDashboard />, label: isTamil ? 'முகப்பு' : 'Dashboard' },
+    { to: '/scanner', icon: <MdPsychology />, label: isTamil ? 'ஆங்கிலம்' : 'English' },
+    { to: '/scanner-tamil', icon: <MdTranslate />, label: isTamil ? 'தமிழ்' : 'தமிழ்' },
+  ];
 
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');
@@ -33,7 +27,7 @@ const Sidebar = ({ collapsed, onToggle }) => {
   };
 
   return (
-    <aside className={`sidebar ${collapsed ? 'sidebar--collapsed' : ''}`}>
+    <aside className={`sidebar ${collapsed ? 'sidebar--collapsed' : ''} ${className || ''}`}>
       {/* Brand */}
       <div className="sidebar__brand">
         <div className="sidebar__brand-icon">
@@ -42,7 +36,6 @@ const Sidebar = ({ collapsed, onToggle }) => {
         {!collapsed && (
           <div className="sidebar__brand-text">
             <span className="sidebar__brand-name">EmoNews</span>
-            <span className="sidebar__brand-tag">AI Dashboard</span>
           </div>
         )}
         <button className="sidebar__collapse-btn" onClick={onToggle}>
@@ -52,7 +45,6 @@ const Sidebar = ({ collapsed, onToggle }) => {
 
       {/* Nav */}
       <nav className="sidebar__nav">
-        {!collapsed && <div className="sidebar__section-label">MAIN MENU</div>}
         {NAV_ITEMS.map(item => (
           <NavLink
             key={item.to}
@@ -69,9 +61,9 @@ const Sidebar = ({ collapsed, onToggle }) => {
 
       {/* Footer */}
       <div className="sidebar__footer">
-        <button className="sidebar__logout" onClick={handleLogout} title={collapsed ? 'Logout' : ''}>
+        <button className="sidebar__logout" onClick={handleLogout} title={collapsed ? (isTamil ? 'வெளியேறு' : 'Logout') : ''}>
           <span className="sidebar__link-icon"><MdLogout /></span>
-          {!collapsed && <span>Logout</span>}
+          {!collapsed && <span>{isTamil ? 'வெளியேறு' : 'Logout'}</span>}
         </button>
       </div>
     </aside>

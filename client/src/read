@@ -1,7 +1,0 @@
-set NODE_OPTIONS=--openssl-legacy-provider
-npm start
-npm install axios react-modal
-npm install react-router-dom
-
-
-https://newsapi.org/account
