@@ -41,7 +41,7 @@ const Camera = ({ photoMode }) => {
     try {
       const API_URL = process.env.REACT_APP_API_URL || '/api';
       const response = await axios.get(`${API_URL}/news`, {
-        params: { q: query, language: 'en', pageSize: 30 }
+        params: { q: query, language: 'en', pageSize: 40 }
       });
       
       let articles = response.data.articles || [];
@@ -49,7 +49,7 @@ const Camera = ({ photoMode }) => {
       // Shuffle news to keep it fresh
       articles = articles.sort(() => Math.random() - 0.5);
       
-      setNews(articles.slice(0, 12));
+      setNews(articles.slice(0, 20));
       
       // Smoothly move scanner out of view and focus on news
       setTimeout(() => {
