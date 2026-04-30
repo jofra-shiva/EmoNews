@@ -12,7 +12,7 @@ const DashboardLayout = ({ children }) => {
   const location = useLocation();
 
   // Close mobile sidebar on route change
-  React.useEffect(() => {
+  useEffect(() => {
     setMobileOpen(false);
   }, [location.pathname]);
 

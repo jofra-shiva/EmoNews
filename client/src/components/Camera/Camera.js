@@ -159,7 +159,10 @@ const Camera = ({ photoMode }) => {
 
               <div className="camera__controls">
                 <Button onClick={() => setIsCameraOn(!isCameraOn)} className={classnames("toggle-btn btn-small", !isCameraOn && "button--primary")}>
-                  {isCameraOn ? '🛑 STOP SCAN' : <span>⚡ START SCAN</span>}
+                  {isCameraOn ? 
+                    <><span role="img" aria-label="stop">🛑</span> STOP SCAN</> : 
+                    <><span role="img" aria-label="start">⚡</span> START SCAN</>
+                  }
                 </Button>
               </div>
             </div>

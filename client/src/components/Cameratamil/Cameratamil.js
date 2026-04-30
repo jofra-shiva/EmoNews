@@ -226,7 +226,7 @@ const Cameratamil = ({ photoMode }) => {
                 ) : (
                   detectedEmotion && (
                     <div className="no-news-message glass-card animate-fade-in">
-                      <div className="no-news-icon">📡</div>
+                      <div className="no-news-icon"><span role="img" aria-label="satellite">📡</span></div>
                       <h3>மன்னிக்கவும்!</h3>
                       <p>தற்போது உங்கள் மனநிலைக்கான நேரடிச் செய்திகள் கிடைக்கவில்லை. புதிய செய்திகள் அப்டேட் ஆனவுடன் உடனே காண்பிக்கிறோம்.</p>
                       <span className="no-news-status">(Sorry, we will show news once it's updated)</span>
